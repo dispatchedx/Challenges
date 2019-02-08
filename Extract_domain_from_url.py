@@ -1,12 +1,8 @@
+''' Extracts the  domain from a given url '''
+
 import re
-given = "http://github.com/carbonfive/raygun"
-given = 'https://www.cnet.com'
-given = "http://www.zombie-bites.com"
-given = "www.xakep.ru"
+given = {"http://github.com/carbonfive/raygun",'https://www.cnet.com',"http://www.zombie-bites.com","www.xakep.ru"}
 
+for url in given:
+    print(''.join(re.split('www\.|https*://|\..*', url)))
 
-print(''.join(re.split('www\.|https*://|\..*', given)))
-
-
-''' def domain_name(url):
-    return url.split("//")[-1].split("www.")[-1].split(".")[0]'''
