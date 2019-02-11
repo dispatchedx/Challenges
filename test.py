@@ -1,6 +1,3 @@
-import math
-
-
 def format_duration(seconds):
     time = ''
     year = 31536000
