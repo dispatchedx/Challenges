@@ -21,4 +21,4 @@ def last_digit(n1, n2):
     remainder = n2 % length_pattern           # divide exponent by the length of pattern
     return pattern[remainder-1]          # last digit of the operation is in list at index=remainder
 
-
+''' usage: print(last_digit(2,2223))'''
