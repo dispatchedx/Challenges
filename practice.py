@@ -1,5 +1,83 @@
 from urllib.request import urlopen
 from PIL import Image, ImageFilter
+import time
+
+test_array = []
+for i in range(1, 20000000):
+    test_array.append(i)
+#test_array = set(test_array) - {100000}
+def missing_number(given_array):
+    should_be = 0
+    for num in given_array:
+        should_be += 1
+        if num!= should_be:
+            missingNumber = num-1
+            should_be += 1
+            break
+    return missingNumber
+
+
+def missing_number_sum(given_array):
+    #sum = n * (n - 1)//2
+    array_length = len(given_array)
+    total = (array_length + 1) * (array_length + 2) // 2
+    for c in given_array:
+        total -= c
+    missingNumber = total
+    return missingNumber
+
+k=7
+start = time.time()
+result = missing_number(test_array)
+end = time.time()
+print(f'{result} in {end-start}')
+start = time.time()
+result = missing_number_sum(test_array)
+end = time.time()
+print(f'{result} in {end-start}')
+#if result==arr:
+#    print('No changes')
+
+
+
+
+
+
+
+
+
+
+
+
+
+'''def miNN(arr, N):
+    index = []
+    for i in range(0, N):
+        min = arr[0]
+        for num1 in arr:
+            if num1 < min:
+                min = num1
+        if i != N:
+            arr.remove(min)
+    return min'''
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

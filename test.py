@@ -1,77 +1,63 @@
-def format_duration(seconds):
-    time = ''
-    year = 31536000
-    day = 86400
-    hour = 3600
-    minute = 60
-    if seconds == 0:
-        time = 'now'
-    if seconds >= 2 * year:
-        time += str(seconds // year) + ' years'
-        seconds = seconds % year
-        if seconds > 0:
-            time += ', '
 
-    if seconds >= year:
-        time += str(seconds // year) + ' year'
-        seconds = seconds % year
-        if seconds > 0:
-            time += ', '
-
-    if seconds >= 2 * day:
-        time += str(seconds // day) + ' days'
-        seconds = seconds % day
-        if seconds > 0:
-            time += ', '
-
-    if seconds >= day:
-        time += str(seconds // day) + ' day'
-        seconds = seconds % day
-        if seconds > 0:
-            time += ', '
-
-    if seconds >= 2 * hour:
-        time += str(seconds // hour) + ' hours'
-        seconds = seconds % hour
-        if seconds > 0 and seconds % minute != 0:
-            time += ', '
-        else:
-            time += ' '
-
-    if seconds >= hour:
-        time += str(seconds // hour) + ' hour'
-        seconds = seconds % hour
-        if seconds > 0:
-            time += ', '
-
-    if seconds >= 2 * minute:
-        if seconds % minute == 0 and time is not '':
-            time += 'and '
-        time += str(seconds // minute) + ' minutes'
-        seconds = seconds % minute
-        if seconds > 0:
-            time += ' '
-
-    if seconds >= minute:
-        if seconds % minute == 0 and time is not '':
-            time += 'and '
-        time += str(seconds // minute) + ' minute'
-        seconds = seconds % minute
-        if seconds > 0:
-            time += ' '
-
-    if seconds >= 2:
-        if time != '':
-            time += 'and '
-        time += str(seconds) + ' seconds'
-
-    if seconds == 1:
-        if time != '':
-            time += 'and '
-        time += str(seconds) + ' second'
-    return time
-
-x=format_duration(132030240)
-print(x)
+def find_num(ar, n):
+    zeroy = -1
+    for y in ar:
+        zeroy += 1
+        for x in y:
+            if x == n:
+                zerox = y.index(n)
+                return zerox, zeroy
 
 
+def move(ar, xy):
+    x = xy[0]
+    y = xy[1]
+    while y != 0:
+        #while y!= 0:
+        temp = ar[y-1][x]
+        ar[y-1][x] = ar[y][x]
+        ar[y][x] = temp
+        y -= 1
+        # needs to return ar in each step
+    while x != 0:
+        # while y!= 0:
+        temp = ar[y][x-1]
+        ar[y][x-1] = ar[y][x]
+        ar[y][x] = temp
+        x -= 1
+        # needs to return ar in each step
+    return ar
+
+def slide_puzzle(ar):
+    zero = find_num(ar, 0)
+    print(zero)
+    ar = move(ar, zero)
+    for col in ar:
+        print(col)
+    #zerox=puzzle.index(0)
+    #zeroy
+    print(zero)
+    if puzzle[1][1]!=1:
+        pass
+    #    zeroy
+    return ar
+
+
+puzzle = [
+	[4,1,3],
+	[2,8,0],
+	[7,6,5]
+]
+
+slide_puzzle(puzzle)
+
+'''def move(ar, xy):
+    #while ar[xy[1]-2] not in ar[0]:
+    x = xy[0]
+    y = xy[1]
+    #while y!= 0:
+    temp = ar[x][y-1]
+    ar[x][y-1] = ar[x][y]
+    ar[x][y] = temp
+
+    return ar'''
