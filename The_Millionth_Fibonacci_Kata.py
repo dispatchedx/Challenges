@@ -1,13 +1,12 @@
-import time
-N = 1000000
-print(f'Calculating {N}th fibonacci number..')
 def fib(n):
-    """ Calculates Nth fibonacci number in Θ(log n) complexity (works with negative values)"""
+    """ Calculates Nth fibonacci number in Θ(log n) complexity using the fast doubling method.
+    It works with negative values as well """
     if n == 0:
         return 0
-    elif n <= 2 and n>0:
+
+    elif 2 >= n > 0:
         return 1
-    elif n==-1:
+    elif n == -1:
         return 1
 
     else:
@@ -20,9 +19,3 @@ def fib(n):
         else:                        # if even;
             c = a * ((b << 1) - a)   # F(k)*[2F(k+1)-F(k)]
             return c
-
-
-start = time.time()
-x = fib(N)
-end = time.time()
-print(f'{x}, finished in {end-start} seconds')
