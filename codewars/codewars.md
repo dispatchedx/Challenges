@@ -1,4 +1,5 @@
 #Codewars
+
 [![CodeWars](https://www.codewars.com/users/Dispatched/badges/large)](https://www.codewars.com/users/Dispatched "My Codewars profile")
 
 My Katas (smaller kyu is harder):
@@ -14,7 +15,7 @@ My Katas (smaller kyu is harder):
 * [Human readable duration format](4%20kyu/Human_readable_duration_format.py) - [challenge](https://www.codewars.com/kata/52742f58faf5485cae000b9a)
 * [Binary multiple of 3](4%20kyu/Binary_multiple_of_3.py) - [challenge](https://www.codewars.com/kata/54de279df565808f8b00126a)
 * [Regular expression for binary numbers divisible by 5](4%20kyu/Regular_expression_for_binary_numbers_divisible_by_5.py) - [challenge](https://www.codewars.com/kata/5647c3858d4acbbe550000ad)
-* [A Simplistic TCP Finite State Machine (FSM)](4 kyu/TCP_finite_state_machine.py) - [challenge](https://www.codewars.com/kata/54acc128329e634e9a000362)
+* [A Simplistic TCP Finite State Machine (FSM)](4%20kyu/TCP_finite_state_machine.py) - [challenge](https://www.codewars.com/kata/54acc128329e634e9a000362)
 * [Permutations](4%20kyu/Permutations.py) - [challenge](https://www.codewars.com/kata/5254ca2719453dcc0b00027d)
 * [The observed PIN](4%20kyu/The_observed_pin.py) - [challenge](https://www.codewars.com/kata/5263c6999e0f40dee200059d)
 * [Roman Numerals Helper](4%20kyu/Roman_numerals_helper.py) - [challenge](https://www.codewars.com/kata/51b66044bce5799a7f000003)
