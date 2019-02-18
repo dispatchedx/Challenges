@@ -10,7 +10,7 @@ def fib(n):
         return 1
 
     else:
-        k = n >> 1                   # if n is odd; k=(n/2) ### if n is even; k=(n-1)/2
+        k = n >> 1
         a = fib(k)                   # F(k)
         b = fib(k+1)                 # F(k+1)
         if n & 1:                    # if odd;
