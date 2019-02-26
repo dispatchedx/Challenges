@@ -1,10 +1,10 @@
 from selenium import webdriver
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 
-caps = DesiredCapabilities().FIREFOX
+caps = DesiredCapabilities.FIREFOX
 caps["pageLoadStrategy"] = "eager"  # faster version
 
-driver = webdriver.Firefox(executable_path=r'C:/Users/DX/geckodriver.exe')
+driver = webdriver.Firefox(desired_capabilities=caps, executable_path=r'C:/Users/DX/geckodriver.exe')
 driver.get("https://eclass.upatras.gr/")
 
 name_box = driver.find_element_by_name("uname")
