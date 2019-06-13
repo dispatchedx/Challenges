@@ -35,7 +35,7 @@ for i in range(number_of_documents):
             documents_with_contents.update({list_of_documents[i]: document_contents})
     except FileNotFoundError:
         print(f'File \"{list_of_documents[i]}\" was not found; files must be placed in the same folder as the program')
-
+        exit(-1)
 vectorized = []
 vectorized_documents = {}
 for document in documents_with_contents:
