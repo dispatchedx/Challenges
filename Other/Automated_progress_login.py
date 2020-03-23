@@ -7,8 +7,8 @@ caps["pageLoadStrategy"] = "eager"
 driver = webdriver.Firefox(desired_capabilities=caps, executable_path=r'C:/Users/DX/geckodriver.exe')
 driver.get('https://progress.upatras.gr/')
 
-name_box = driver.find_element_by_id('inputEmail')
-password_box = driver.find_element_by_id('inputPassword')
+name_box = driver.find_element_by_id('username')
+password_box = driver.find_element_by_id('password')
 with open('C:/Users/DX/lol.txt') as myFile:
     myPassword = myFile.readline()
 myUsername = 'up1058123'
