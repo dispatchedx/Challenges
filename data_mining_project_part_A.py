@@ -5,7 +5,7 @@ from sklearn import metrics
 from sklearn.svm import SVC
 from sklearn.cluster import KMeans
 import numpy as np
-import matplotlib.pyplot as plt
+
 # reading csv data
 data = pd.read_csv('C:/Users/DX/Desktop/datamining/winequality-red.csv')
 
@@ -17,7 +17,11 @@ y = data['quality'].values
 
 
 def average_ph(X):
-    # Calculating average pH value
+    """
+
+    :param X: data
+    :return: average of pH column
+    """
     sum = 0
     for i in range(0, len(X)):
         sum += X[i][-3] # -3 is pH column
@@ -25,8 +29,12 @@ def average_ph(X):
     return average
 
 
-
 def train_svc_model(X, y):
+    """
+    Splits training-testing data to 75%-25%, trains a SVC model and prints its metrics
+    :param X: features
+    :param y: target variable
+    """
     # Splitting training-testing data at 75%-25%
     X_train, X_test, y_train, y_test = model_selection.train_test_split(X, y, test_size=0.25, random_state=1)
     # fit SVC
@@ -39,6 +47,10 @@ def train_svc_model(X, y):
     print(metrics.classification_report(y_test, y_predict))
 
 def remove_33_of_ph_values():
+    """
+
+    :return: split data but yy_test is 33% of pH values and set to None
+    """
     Xx = data[['fixed acidity', 'volatile acidity', 'citric acid', 'residual sugar', 'chlorides', 'free sulfur dioxide',
                'total sulfur dioxide', 'density', 'sulphates', 'alcohol', 'quality']].values
     # target
@@ -119,7 +131,3 @@ elif choice == '2':
         exit(1)
 else:
     exit(1)
-
-
-#df = pd.DataFrame({'Real': y_test.flatten(), 'Prediction': y_predict.flatten()})
-#print(df.head(10))
