@@ -5,7 +5,7 @@ from sklearn import metrics
 from sklearn.svm import SVC
 from sklearn.cluster import KMeans
 import numpy as np
-
+import matplotlib.pyplot as plt
 # reading csv data
 data = pd.read_csv('C:/Users/DX/Desktop/datamining/winequality-red.csv')
 
@@ -53,8 +53,8 @@ def remove_33_of_ph_values():
 
 
 print("What to do?\n"
-      "1. Part A (split dataset to training-test 75%-25% and predict quality\n"
-      "2. Part B ( Remove 33% of ph values and fill them with various ways\n"
+      "1. Part A (split dataset to training-test 75%-25% and predict quality)\n"
+      "2. Part B (remove 33% of ph values and fill them with various ways)\n"
       "Any other key. Quit\n")
 
 choice = input()
@@ -106,6 +106,8 @@ elif choice == '2':
         # Removing 33% of pH values
         Xx_train, yy_train, Xx_test, yy_test = remove_33_of_ph_values()
         kmeans = KMeans(n_clusters=6).fit(X)
+        labels = kmeans.predict(X)
+        centroids = kmeans.cluster_centers_
         cluster_map = pd.DataFrame()
         cluster_map['data_index'] = data.index.values
         cluster_map['cluster'] = kmeans.labels_
