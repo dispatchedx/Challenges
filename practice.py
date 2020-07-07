@@ -1,12 +1,12 @@
-from PIL import Image
+#from PIL import Image
 import numpy as np
 import requests
 import urllib3.request
 
+import numpy as np
 
-url = 'https://progress.upatras.gr/'
-response = requests.get(url)
-print(response.content)
+
+
 '''
 response = requests.get('http://www.pythonchallenge.com/pc/return/evil1.jpg', auth=('huge', 'file'))
 response = (response.content)
