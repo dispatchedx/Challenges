@@ -5,14 +5,14 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn import model_selection
 from sklearn import metrics
 from keras import Sequential
-from keras.layers import Dense
+from keras.layers import Dense, Flatten
 from keras.callbacks import EarlyStopping
 
 nltk.download('punkt')  # needed for nltk
 nltk.download('stopwords')  # needed for stopwords removal
 
 # Read csv into a pandas dataframe
-data = pd.read_csv('C:/Users/DX/Desktop/datamining/onion-or-not.csv')
+data = pd.read_csv('C:/Users/DX/Desktop/work/datamining/onion-or-not.csv')
 
 
 def preprocessing(dataframe):
@@ -101,8 +101,8 @@ target = data['label'].values
 X_train, X_test, y_train, y_test = model_selection.train_test_split(X, target, test_size=0.25, random_state=1)
 
 model = Sequential()
-model.add(Dense(18000, input_dim=X.shape[1], activation='relu'))  # first layer
-model.add(Dense(128, activation='relu'))  # second layer
+model.add(Dense(18000, input_dim=X.shape[1]))  # first layer
+model.add(Dense(128))  # second layer
 model.add(Dense(1, activation='sigmoid'))  # output
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 # cross entropy loss function is for a binary classification

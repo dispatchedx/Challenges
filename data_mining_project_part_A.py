@@ -7,7 +7,7 @@ from sklearn.cluster import KMeans
 import numpy as np
 
 # reading csv data
-data = pd.read_csv('C:/Users/DX/Desktop/datamining/winequality-red.csv')
+data = pd.read_csv('C:/Users/DX/Desktop/work/datamining/winequality-red.csv')
 
 # labels
 X = data[['fixed acidity', 'volatile acidity', 'citric acid', 'residual sugar', 'chlorides', 'free sulfur dioxide',
