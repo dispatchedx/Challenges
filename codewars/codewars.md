@@ -32,6 +32,7 @@ My Katas (smaller kyu is harder):
 * [Count characters in your string](6%20kyu/Count_characters_in_your_string.py) - [challenge](https://www.codewars.com/kata/52efefcbcdf57161d4000091)
 * [Your order, please](6%20kyu/your_order_please.py) - [challenge](https://www.codewars.com/kata/55c45be3b2079eccff00010f)
 * [Sum of Digits / Digital Root](6%20kyu/Sum_of_Digits_Digital_Root.py) - [challenge](https://www.codewars.com/kata/541c8630095125aba6000c00)
+* [Create Phone Number](6%20kyu/Create_phone_number.py) - [challenge](https://www.codewars.com/kata/525f50e3b73515a6db000b83/train)
 ### 7 kyu</a>
 * [Disemvowel Trolls](7%20kyu/disemvowel.py) - [challenge](https://www.codewars.com/kata/52fba66badcd10859f00097e)
 * [Friend or Foe?](7%20kyu/Friend_or_foe.py) - [challenge](https://www.codewars.com/kata/55b42574ff091733d900002f)
