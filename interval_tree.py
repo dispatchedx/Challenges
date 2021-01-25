@@ -59,6 +59,7 @@ class IntervalTree:
         :param i: interval
         :return: a list of intervals
         """
+        #TODO
         interval = Interval(i[0], i[1])
         if root is None:
             return None
@@ -66,8 +67,8 @@ class IntervalTree:
             self.overlaps.append(root.interval)
             return True
 
-        #        if root.left is None and root.right is None:
-        #            return self.overlaps
+        if root.left is None and root.right is None:
+             return self.overlaps
         else:
             if root.left is None:
                 root = self.findall_overlapping_interval(root.right, i)
@@ -115,7 +116,7 @@ class IntervalTree:
         interval = Interval(i[0], i[1])
         if root is None:
             return root
-
+        #TODO change max value of ancestors
         if root.interval.low > interval.low:
             root.left = self.delete(root.left, i)
         elif root.interval.low < interval.low:
@@ -124,15 +125,19 @@ class IntervalTree:
             # no children
             if root.left is None and root.right is None:
                 return None
+            # 1 children
             elif root.left is None:
-                temp = root.right
+                child = root.right
                 root = None
-                return temp
+                return child
             elif root.right is None:
-                temp = root.left
+                child = root.left
                 root = None
-                return temp
-
+                return child
+            # 2 children
+            else:
+                pass
+                #if root.right
         return root
 
     def update(self, intervals):
@@ -142,8 +147,7 @@ class IntervalTree:
 #test = IntervalTree()
 test = IntervalTree([[2,2],[3,6],[1,4],[0,2]])
 #test.root = test.insert(test.root, [7,7])
-#test.update([[4,4],[5,5]])
-#test.root.right=None
+test.update([[4,4],[5,5]])
 test.root =test.delete(test.root, [1,4])
 #root = None
 #root = test.insert(root, [2, 2])
@@ -173,7 +177,7 @@ def printTree(root, level=0):
         printTree(root.right, level + 1)
 
 print("printing!: ")
-printInOrder(test.root)
+#printInOrder(test.root)
 printTree(test.root)
-result = test.test_overlap(test.root, [8,8])
+result = test.test_overlap(test.root, [5,9])
 print(result)
