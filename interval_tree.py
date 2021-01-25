@@ -22,6 +22,10 @@ class IntervalTree:
             self.root = None
         else:
             for interval in intervals:
+                """
+                Can create an tree like this:
+                test = IntervalTree([[2,2],[3,6],[1,4],[0,2]])
+                """
                 self.root = self.insert(self.root, interval)
 
     overlaps = []
@@ -46,6 +50,14 @@ class IntervalTree:
         return root
 
     def insert(self, root, i):
+        """
+        usage:
+        test_tree = intervalTree()
+        test_tree.root = test_tree.insert(test_tree.root, [4,7])
+        :param root: root of the tree
+        :param i: interval to be inserted a list of 2 integers, [low,high] ex. [1,5]
+        :return: updated tree
+        """
         interval = Interval(i[0], i[1])
         # if interval in self:  # ??
         #    return
@@ -59,7 +71,7 @@ class IntervalTree:
             else:
                 root.right = self.insert(root.right, i)
             if root.max < interval.high:
-               root.max = interval.high
+                root.max = interval.high
             return root
 
 
@@ -83,11 +95,16 @@ def printInorder(root):
     printInorder(root.right)
 
 
-def printTree(node, level=0):
-    if node is not None:
-        printTree(node.left, level + 1)
-        print(' ' * 4 * level + f'-> [{node.interval.low} {node.interval.high}] ({node.max})')
-        printTree(node.right, level + 1)
+def printTree(root, level=0):
+    """
+    Prints a visualization of the tree
+    :param root: root of tree
+    :param level: starting level
+    """
+    if root is not None:
+        printTree(root.left, level + 1)
+        print(' ' * 4 * level + f'-> [{root.interval.low} {root.interval.high}] ({root.max})')
+        printTree(root.right, level + 1)
 
 print("printing!: ")
 printInorder(test.root)
