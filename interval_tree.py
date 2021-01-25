@@ -10,50 +10,79 @@ class Node:
         self.max = interval.high
         self.left = None
         self.right = None
-
-# print(x.right.low)
+        self.parent = None
 
 
 class IntervalTree:
-
+    """
+    Can create an tree like this:
+    test = IntervalTree([[2,2],[3,6],[1,4],[0,2]])
+    """
     def __init__(self, intervals=None):
         self.root = None
         if intervals is None:
             self.root = None
         else:
             for interval in intervals:
-                """
-                Can create an tree like this:
-                test = IntervalTree([[2,2],[3,6],[1,4],[0,2]])
-                """
                 self.root = self.insert(self.root, interval)
 
     overlaps = []
-    def search_overlapping_interval(self, root, i):
+    def test_overlap(self, root, i):
+        """
+        Tests if given interval overlaps with any from the tree
+        :param root: root of the tree
+        :param i: interval
+        :return: True if an overlap exists, else returns None
+        """
         interval = Interval(i[0], i[1])
-
         if root is None:
-            return self.overlaps
+            return False
         if root.interval.low <= interval.high and root.interval.high >= interval.low:
-            self.overlaps.append(root.interval)
+            #self.overlaps.append(root.interval)
+            return True
 
-        if root.left is None and root.right is None:
-            return self.overlaps
         else:
             if root.left is None:
-                    root = self.search_overlapping_interval(root.right, i)
+                    root = self.test_overlap(root.right, i)
             elif interval.low > root.left.max:
-                    root = self.search_overlapping_interval(root.right, i)
+                    root = self.test_overlap(root.right, i)
             else:
-                root = self.search_overlapping_interval(root.left, i)
+                root = self.test_overlap(root.left, i)
 
+        return root
+
+    def findall_overlapping_interval(self, root, i):
+        """
+        ~~Work In Progress~~
+        Finds all intervals that overlap with the given interval
+        :param root: root of the tree
+        :param i: interval
+        :return: a list of intervals
+        """
+        interval = Interval(i[0], i[1])
+        if root is None:
+            return None
+        if root.interval.low <= interval.high and root.interval.high >= interval.low:
+            self.overlaps.append(root.interval)
+            return True
+
+        #        if root.left is None and root.right is None:
+        #            return self.overlaps
+        else:
+            if root.left is None:
+                root = self.findall_overlapping_interval(root.right, i)
+            elif interval.low > root.left.max:
+                root = self.findall_overlapping_interval(root.right, i)
+            else:
+                root = self.findall_overlapping_interval(root.left, i)
         return root
 
     def insert(self, root, i):
         """
-        usage:
+        Usage:
         test_tree = intervalTree()
         test_tree.root = test_tree.insert(test_tree.root, [4,7])
+
         :param root: root of the tree
         :param i: interval to be inserted a list of 2 integers, [low,high] ex. [1,5]
         :return: updated tree
@@ -67,18 +96,55 @@ class IntervalTree:
         else:
             if root.interval.low > interval.low:
                 root.left = self.insert(root.left, i)
+                #root.left.parent=root
                 #self.root.left = Node(interval)  # care
             else:
                 root.right = self.insert(root.right, i)
+                #root.right.parent = root
             if root.max < interval.high:
                 root.max = interval.high
             return root
 
+    def delete(self, root, i):
+        """
+        ~~Work In progress~~
+        :param root: root of the tree
+        :param i: a pair of intervals
+        :return: updated tree
+        """
+        interval = Interval(i[0], i[1])
+        if root is None:
+            return root
 
+        if root.interval.low > interval.low:
+            root.left = self.delete(root.left, i)
+        elif root.interval.low < interval.low:
+            root.right = self.delete(root.right, i)
+        elif root.interval.low == interval.low and root.interval.high == interval.high:
+            # no children
+            if root.left is None and root.right is None:
+                return None
+            elif root.left is None:
+                temp = root.right
+                root = None
+                return temp
+            elif root.right is None:
+                temp = root.left
+                root = None
+                return temp
+
+        return root
+
+    def update(self, intervals):
+        for interval in intervals:
+            self.root = self.insert(self.root, interval)
 
 #test = IntervalTree()
 test = IntervalTree([[2,2],[3,6],[1,4],[0,2]])
-test.root = test.insert(test.root, [4,7])
+#test.root = test.insert(test.root, [7,7])
+#test.update([[4,4],[5,5]])
+#test.root.right=None
+test.root =test.delete(test.root, [1,4])
 #root = None
 #root = test.insert(root, [2, 2])
 #root = test.insert(root, [3,6])
@@ -87,12 +153,12 @@ test.root = test.insert(test.root, [4,7])
 #root = test.insert(root, [0,2])
 
 
-def printInorder(root):
+def printInOrder(root):
     if root is None:
         return
-    printInorder(root.left)
+    printInOrder(root.left)
     print(root.interval.low, root.interval.high)
-    printInorder(root.right)
+    printInOrder(root.right)
 
 
 def printTree(root, level=0):
@@ -107,7 +173,7 @@ def printTree(root, level=0):
         printTree(root.right, level + 1)
 
 print("printing!: ")
-printInorder(test.root)
+printInOrder(test.root)
 printTree(test.root)
-result = test.search_overlapping_interval(test.root,[1,8])
-print(result, )
+result = test.test_overlap(test.root, [8,8])
+print(result)
