@@ -5,6 +5,7 @@ class Interval:
 
 
 class Node:
+    #TODO nest interval trees in each node for higher dimensions
     def __init__(self, interval):
         self.interval = interval
         self.max = interval.high
@@ -136,25 +137,18 @@ class IntervalTree:
                 return child
             # 2 children
             else:
-                pass
-                #if root.right
+                child = root.right
+                while child.left is not None:
+                    child = child.left
+                root.interval=child.interval
+                root.right=self.delete(root.right, [child.interval.low,child.interval.high])
+        if root.interval.high < max(root.left.max, root.right.max):
+            root.max = max(root.left.max, root.right.max)
         return root
 
     def update(self, intervals):
         for interval in intervals:
             self.root = self.insert(self.root, interval)
-
-#test = IntervalTree()
-test = IntervalTree([[2,2],[3,6],[1,4],[0,2]])
-#test.root = test.insert(test.root, [7,7])
-test.update([[4,4],[5,5]])
-test.root =test.delete(test.root, [1,4])
-#root = None
-#root = test.insert(root, [2, 2])
-#root = test.insert(root, [3,6])
-#root = test.insert(root, [1,4])
-#print(test.root.interval.low)
-#root = test.insert(root, [0,2])
 
 
 def printInOrder(root):
@@ -175,6 +169,18 @@ def printTree(root, level=0):
         printTree(root.left, level + 1)
         print(' ' * 4 * level + f'-> [{root.interval.low} {root.interval.high}] ({root.max})')
         printTree(root.right, level + 1)
+
+#test = IntervalTree()
+test = IntervalTree([[2,2],[3,6],[1,4],[0,2]])
+#test.root = test.insert(test.root, [7,7])
+test.update([[4,4],[5,5]])
+test.root =test.delete(test.root, [3,6])
+#root = None
+#root = test.insert(root, [2, 2])
+#root = test.insert(root, [3,6])
+#root = test.insert(root, [1,4])
+#print(test.root.interval.low)
+#root = test.insert(root, [0,2])
 
 print("printing!: ")
 #printInOrder(test.root)
