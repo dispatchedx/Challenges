@@ -148,9 +148,13 @@ class IntervalTree:
         elif root.left is not None:
             if root.interval.high < root.left.max:
                 root.max = root.left.max
+            else:
+                root.max = root.interval.high
         elif root.right is not None:
             if root.interval.high < root.right.max:
                 root.max = root.right.max
+            else:
+                root.max = root.interval.high
         else:
             root.max = root.interval.high
         return root
@@ -180,9 +184,9 @@ def printTree(root, level=0):
         printTree(root.right, level + 1)
 
 #test = IntervalTree()
-test = IntervalTree([[2,2],[3,6],[1,4],[0,2]])
+test = IntervalTree([[2,2],[3,9],[1,4],[0,2]])
 #test.root = test.insert(test.root, [7,7])
-test.update([[7,8],[6,5],[8,12]])
+test.update([[7,8],[6,5],[8,12],[5,3],[4,7]])
 #root = None
 #root = test.insert(root, [2, 2])
 #root = test.insert(root, [3,6])
@@ -191,7 +195,8 @@ test.update([[7,8],[6,5],[8,12]])
 #root = test.insert(root, [0,2])
 
 #8,12 doesnt update
-test.root =test.delete(test.root, [8,12])
+test.root =test.delete(test.root, [7,8])
+#test.root =test.delete(test.root, [8,12])
 
 print("printing!: ")
 #printInOrder(test.root)
