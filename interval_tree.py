@@ -245,7 +245,7 @@ def printInOrder(root):
     printInOrder(root.right)
 
 
-def printTree(root, ext_interval=0,level=0):
+def printTree(root, ext_interval=0, level=0):
     """
     Prints a visualization of the x tree
     usage: printTree(my_tree.root)
@@ -254,12 +254,12 @@ def printTree(root, ext_interval=0,level=0):
     :param level: starting level
     """
     if root is not None:
-        if isinstance(root,YNode):
-            x_interval=ext_interval
-            y_interval=root.interval
+        if isinstance(root, YNode):
+            x_interval = ext_interval
+            y_interval = root.interval
         else:
             x_interval = root.interval
-            y_interval=root.y_tree.root.interval
+            y_interval = root.y_tree.root.interval
         printTree(root.left, x_interval,level + 1)
         print(' ' * 4 * level + f'-> x({x_interval.low} {x_interval.high}) y({y_interval.low}'
                                 f' {y_interval.high}) ({root.max})')
@@ -281,7 +281,7 @@ def y_printTree(root):
 my_tree = IntervalTree()
 
 #my_tree = IntervalTree([[2,2],[3,9],[1,4],[0,2]])
-my_tree.update([[7,8,1,1],[3,5,6,6],[8,12,1,1],[5,5,2,5],[4,7,1,3]])
+my_tree.update([[7,8, 1,1],[3,5, 6,6],[8,12, 1,1],[5,5, 2,5],[4,7, 1,3]])
 
 def test_function(test_size):
     """
@@ -292,18 +292,18 @@ def test_function(test_size):
     test_size = test_size
     intervals = []
     for i in range(test_size):
-        if i%2==0:
-            x_low=random.randint(0,1000)
-            x_high=random.randint(x_low,1000)
-            y_low=y_high=random.randint(1,1000)
+        if i % 2 == 0:
+            x_low = random.randint(0,1000)
+            x_high = random.randint(x_low,1000)
+            y_low = y_high = random.randint(1,1000)
         else:
-            y_low=random.randint(0,1000)
-            y_high=random.randint(y_low,1000)
-            x_low=x_high=random.randint(1,1000)
+            y_low = random.randint(0,1000)
+            y_high = random.randint(y_low,1000)
+            x_low = x_high = random.randint(1, 1000)
         intervals.append([x_low, x_high, y_low, y_high])
 
     start = time.time()
-    my_tree2= IntervalTree(intervals)
+    my_tree2 = IntervalTree(intervals)
     end = time.time()
     print(f'build time for {test_size}: {end - start}')
 
@@ -337,7 +337,7 @@ y_printTree(my_tree.root)
 #print(result)
 
 start = time.time()
-my_tree.findall_overlapping_interval(my_tree.root, [1,1000,1,1000])
+my_tree.findall_overlapping_interval(my_tree.root, [1,1000, 1,1000])
 end = time.time()
 print(end - start)
 
