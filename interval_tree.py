@@ -17,7 +17,7 @@ class Node:
         self.max = interval.high
         self.left = None
         self.right = None
-        self.y_tree= IntervalTree()
+        self.y_tree = IntervalTree()
         self.y_tree.root = self.y_tree.insert(self.y_tree.root, [y_interval.low, y_interval.high])
 
 
@@ -88,7 +88,7 @@ class IntervalTree:
         if root is None:
             return root
         if root.interval.low <= interval.high and root.interval.high >= interval.low:
-            self.findall_overlapping_y_interval(root.y_tree.root, i, root.interval) #search for y value
+            self.findall_overlapping_y_interval(root.y_tree.root, i, root.interval)  #search for y value
             #self.overlaps.append(root.interval)
 
         if root.left is None and root.right is None:
@@ -321,7 +321,7 @@ def test_function(test_size):
     print(f'search the whole tree for overlaps: {end - start}')
     return my_tree
 
-my_tree=test_function(1000)
+my_tree=test_function(10000)
 #my_tree=IntervalTree()
 #test_function(100000)
 #my_tree.insert(my_tree.root, [2, 2])
@@ -342,6 +342,6 @@ my_tree.findall_overlapping_interval(my_tree.root, [1,1000, 1,1000])
 end = time.time()
 print(end - start)
 
-for x_interval, y_interval in my_tree.overlaps:
-    print(f'x({x_interval.low} {x_interval.high}) y({y_interval.low} {y_interval.high})')
+#for x_interval, y_interval in my_tree.overlaps:
+   # print(f'x({x_interval.low} {x_interval.high}) y({y_interval.low} {y_interval.high})')
 print(len(my_tree.overlaps))
