@@ -50,6 +50,9 @@ class IntervalTree:
         """
         obsolete function: only works on 1D tree
         Tests if given interval overlaps with any from the tree
+        usage:
+        result = my_tree.test_overlap(my_tree.root, [5,10,3,4])
+        print(result)
         :param root: root of the tree
         :param i: interval
         :return: True if an overlap exists, else returns None
@@ -333,8 +336,6 @@ my_tree.root=my_tree.insert(my_tree.root, [1,5999,6,6])
 print("printing ytrees:")
 y_printTree(my_tree.root)
 """
-#result = my_tree.test_overlap(my_tree.root, [5,10,3,4])
-#print(result)
 
 start = time.time()
 my_tree.findall_overlapping_interval(my_tree.root, [1,1000, 1,1000])
