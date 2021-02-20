@@ -2,20 +2,16 @@
 import numpy as np
 import requests
 import urllib3.request
-import pandas
-import numpy as np
+import time
+temp=[]
+start = time.time()
+for i in range(10000):
+    for k in range(i):
 
-frames = pandas.DataFrame({'a':[],'b':[],'c':[]})
-import tabula
+        temp.append(k)
+end = time.time()
+print(f'build time for {i}: {end - start}')
 
-dfList = tabula.read_pdf('C:/users/DX/Desktop/021.pdf', multiple_tables=True, pages='all')
-#print(dfList)
-
-frames=pandas.concat(dfList, axis=1)
-
-print(frames)
-#pandas.
-    #print(df['Βαθμός'])
 
 '''
 response = requests.get('http://www.pythonchallenge.com/pc/return/evil1.jpg', auth=('huge', 'file'))

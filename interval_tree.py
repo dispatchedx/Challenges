@@ -1,32 +1,41 @@
+import random
+import time
+
+
 class Interval:
     def __init__(self, low, high,):
         self.low = low
         self.high = high
 
 
-
 class Node:
-    #TODO nest interval trees in each node for higher dimensions
+    """
+    Node on x axis
+    """
     def __init__(self, interval, y_interval):
         self.interval = interval
         self.max = interval.high
         self.left = None
         self.right = None
         self.y_tree= IntervalTree()
-        #self.node=YNode(y_interval)
         self.y_tree.root = self.y_tree.insert(self.y_tree.root, [y_interval.low, y_interval.high])
 
+
 class YNode:
+    """
+    Node on y axis
+    """
     def __init__(self, interval):
         self.interval = interval
         self.max = interval.high
         self.left = None
         self.right = None
 
+
 class IntervalTree:
     """
     Can create an tree like this:
-    my_tree = IntervalTree([[2,2],[3,6],[1,4],[0,2]])
+    my_tree = IntervalTree([[2,2,3,7],[3,6,5,5],[1,4,1,1],[0,2,1,1]])
     """
     def __init__(self, intervals=None):
         self.root = None
@@ -35,10 +44,11 @@ class IntervalTree:
         else:
             for interval in intervals:
                 self.root = self.insert(self.root, interval)
-
     overlaps = []
+
     def test_overlap(self, root, i):
         """
+        obsolete function: only works on 1D tree
         Tests if given interval overlaps with any from the tree
         :param root: root of the tree
         :param i: interval
@@ -62,8 +72,9 @@ class IntervalTree:
         return root
 
     def findall_overlapping_interval(self, root, i):
-        """~
-        Finds all intervals that overlap with the given interval
+        """
+        usage: my_tree.findall_overlapping_interval(my_tree.root, [30,500, 1,1000])
+        Finds all intervals that overlap with the given interval on x axis
         :param root: root of the tree
         :param i: interval
         :return: a list of intervals
@@ -90,9 +101,9 @@ class IntervalTree:
                     self.findall_overlapping_interval(root.right, i)
         return root
 
-    def findall_overlapping_y_interval(self, root, i,x_interval):
+    def findall_overlapping_y_interval(self, root, i, x_interval):
         """~
-        Finds all intervals that overlap with the given interval
+        Finds all intervals that overlap with the given interval on y axis
         :param root: root of the tree
         :param i: interval
         :return: a list of intervals
@@ -104,57 +115,63 @@ class IntervalTree:
             return root
         if root.interval.low <= interval.high and root.interval.high >= interval.low:
             self.overlaps.append([x_interval,root.interval])
+            return root
         if root.left is None and root.right is None:
             return root
         else:
             if root.left is None:
-                self.findall_overlapping_interval(root.right, i)
+                self.findall_overlapping_y_interval(root.right, i,x_interval)
             elif interval.low > root.left.max:
-                self.findall_overlapping_interval(root.right, i)
+                self.findall_overlapping_y_interval(root.right, i,x_interval)
             else:
-                self.findall_overlapping_interval(root.left, i)
+                self.findall_overlapping_y_interval(root.left, i,x_interval)
                 if interval.high > root.interval.low:
-                    self.findall_overlapping_interval(root.right, i)
+                    self.findall_overlapping_y_interval(root.right, i,x_interval)
         return root
 
     def insert(self, root, i):
         """
+        inserts interval to the tree;
         Usage:
         test_tree = intervalTree()
-        test_tree.root = test_tree.insert(test_tree.root, [4,7])
+        test_tree.root = test_tree.insert(test_tree.root, [4, 7, 3, 3])
 
         :param root: root of the tree
-        :param i: interval to be inserted a list of 2 integers, [low,high] ex. [1,5]
+        :param i: interval to be inserted to the tree; a list of 4 integers, [x_low,x_high, y_low, y_high]
         :return: updated tree
         """
         interval = Interval(i[0], i[1])
-        if len(i)>2:
-            y_interval = Interval(i[2],i[3])
         # if interval in self:  # ??
         #    return
+
         if root is None:
-            if len(i)>2:
+            if len(i) > 2:
+                y_interval = Interval(i[2], i[3])
                 return Node(interval, y_interval)
-            else: return YNode(interval)
+            else:
+                return YNode(interval)
         else:
+            if len(i) > 2:
+                y_interval = Interval(i[2], i[3])
+                root.y_tree.root = root.y_tree.insert(root.y_tree.root, [y_interval.low, y_interval.high])
             if root.interval.low > interval.low:
+                #if root.left is not None:
                 root.left = self.insert(root.left, i)
-                #root.left.parent=root
-                #self.root.left = Node(interval)  # care
             else:
                 root.right = self.insert(root.right, i)
-                #root.right.parent = root
             if root.max < interval.high:
                 root.max = interval.high
             return root
 
     def delete(self, root, i):
         """
+        deletes interval i from tree and updates ancestors max values
         :param root: root of the tree
-        :param i: a pair of intervals
+        :param i: a pair of intervals xy ex. [x_low, x_high, y_low, y_high]
         :return: updated tree
         """
         interval = Interval(i[0], i[1])
+        #y_interval = Interval(i[2],i[3])
         if root is None:
             return root
         if root.interval.low > interval.low:
@@ -162,6 +179,12 @@ class IntervalTree:
         elif root.interval.low < interval.low:
             root.right = self.delete(root.right, i)
         elif root.interval.low == interval.low and root.interval.high == interval.high:
+            if isinstance(root, Node):  #if root is a X node
+                og = root.y_tree.root  # remember it
+                root.y_tree.root = self.delete(root.y_tree.root, i[2:])  # if y is found, delete it
+                if root.y_tree.root == og:  # if y was not found
+                    return root  # do nothing
+            # if y was found, delete X node and update tree
             # no children
             if root.left is None and root.right is None:
                 return None
@@ -180,7 +203,14 @@ class IntervalTree:
                 while child.left is not None:
                     child = child.left
                 root.interval = child.interval
-                root.right = self.delete(root.right, [child.interval.low, child.interval.high])
+                if isinstance(child, Node):
+                    root.right = self.delete(root.right, [child.interval.low, child.interval.high,
+                                                      child.y_tree.root.interval.low, child.y_tree.root.interval.high])
+                else:
+                    if isinstance(child, Node):
+                        root.right = self.delete(root.right, [child.interval.low, child.interval.high,
+                                                              child.interval.low,
+                                                              child.interval.high])
         if root.left is not None and root.right is not None:
             if root.interval.high < max(root.left.max, root.right.max):
                 root.max = max(root.left.max, root.right.max)
@@ -204,6 +234,10 @@ class IntervalTree:
 
 
 def printInOrder(root):
+    """
+    obsolete in-order print function for 1D tree
+    :param root: root of the tree
+    """
     if root is None:
         return
     printInOrder(root.left)
@@ -211,33 +245,102 @@ def printInOrder(root):
     printInOrder(root.right)
 
 
-def printTree(root, level=0):
+def printTree(root, ext_interval=0,level=0):
     """
     Prints a visualization of the x tree
+    usage: printTree(my_tree.root)
     :param root: root of tree
+    :param ext_interval is the x interval of the ynode
     :param level: starting level
     """
     if root is not None:
-        printTree(root.left, level + 1)
-        print(' ' * 4 * level + f'-> [{root.interval.low} {root.interval.high}] ({root.max})')
-        printTree(root.right, level + 1)
+        if isinstance(root,YNode):
+            x_interval=ext_interval
+            y_interval=root.interval
+        else:
+            x_interval = root.interval
+            y_interval=root.y_tree.root.interval
+        printTree(root.left, x_interval,level + 1)
+        print(' ' * 4 * level + f'-> x({x_interval.low} {x_interval.high}) y({y_interval.low}'
+                                f' {y_interval.high}) ({root.max})')
+        printTree(root.right, x_interval,level + 1)
 
+
+def y_printTree(root):
+    """
+    Prints a visualization of the y trees
+    usage: y_printTree(my_tree.root)
+    :param root: root of tree
+    """
+    if root is not None:
+        y_printTree(root.left,)
+        printTree(root.y_tree.root,root.interval,)
+        y_printTree(root.right,)
+
+# Initialize tree
 my_tree = IntervalTree()
 
 #my_tree = IntervalTree([[2,2],[3,9],[1,4],[0,2]])
-my_tree.update([[7,8,1,1],[6,5,6,6],[8,12,1,1],[5,5,2,5],[4,7,1,3]])
+my_tree.update([[7,8,1,1],[3,5,6,6],[8,12,1,1],[5,5,2,5],[4,7,1,3]])
+
+def test_function(test_size):
+    """
+    Prints time elapsed for build, update and search of every element of tree of test_size size
+    usage: test_function(10000)
+    :param test_size: n size of intervals to be stored
+    """
+    test_size = test_size
+    intervals = []
+    for i in range(test_size):
+        if i%2==0:
+            x_low=random.randint(0,1000)
+            x_high=random.randint(x_low,1000)
+            y_low=y_high=random.randint(1,1000)
+        else:
+            y_low=random.randint(0,1000)
+            y_high=random.randint(y_low,1000)
+            x_low=x_high=random.randint(1,1000)
+        intervals.append([x_low, x_high, y_low, y_high])
+
+    start = time.time()
+    my_tree2= IntervalTree(intervals)
+    end = time.time()
+    print(f'build time for {test_size}: {end - start}')
+
+    start = time.time()
+    my_tree.update(intervals)
+    end = time.time()
+    print(f'update  time for {test_size}: {end - start}')
+
+    start = time.time()
+    my_tree.findall_overlapping_interval(my_tree.root, [1, 1000, 1, 1000])
+    end = time.time()
+    print(f'search the whole tree for overlaps: {end - start}')
+    return my_tree
+
+my_tree=test_function(1000)
+#my_tree=IntervalTree()
+#test_function(100000)
 #my_tree.insert(my_tree.root, [2, 2])
-my_tree.root=my_tree.insert(my_tree.root, [10,12,3,4])
-my_tree.root=my_tree.insert(my_tree.root, [1,5,1,2])
-#my_tree.root =my_tree.delete(my_tree.root, [7,8])
-#my_tree.root =my_tree.delete(my_tree.root, [4,7])
-#my_tree.root =my_tree.delete(my_tree.root, [6,5])
-#my_tree.root =my_tree.delete(my_tree.root, [0,2])
-print("printing!: ")
-#printInOrder(my_tree.root)
-printTree(my_tree.root)
+#my_tree.root=my_tree.insert(my_tree.root, [10,12,3,4])
+my_tree.root=my_tree.insert(my_tree.root, [1,5999,6,6])
+#my_tree.root =my_tree.delete(my_tree.root, [1,5999,6,6])
+
+
+#print("printing xtree: ")
+#printTree(my_tree.root)
+"""
+print("printing ytrees:")
+y_printTree(my_tree.root)
+"""
 #result = my_tree.test_overlap(my_tree.root, [5,10,3,4])
-my_tree.findall_overlapping_interval(my_tree.root, [1,10,1,10])
 #print(result)
+
+start = time.time()
+my_tree.findall_overlapping_interval(my_tree.root, [1,1000,1,1000])
+end = time.time()
+print(end - start)
+
 for x_interval, y_interval in my_tree.overlaps:
     print(f'x({x_interval.low} {x_interval.high}) y({y_interval.low} {y_interval.high})')
+print(len(my_tree.overlaps))
