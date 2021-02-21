@@ -280,16 +280,12 @@ def y_print_tree(root):
         print_tree(root.y_tree.root,root.interval,)
         y_print_tree(root.right,)
 
-# Initialize tree
-my_tree = IntervalTree()
 
-#my_tree = IntervalTree([[2,2],[3,9],[1,4],[0,2]])
-my_tree.update([[7,8, 1,1],[3,5, 6,6],[8,12, 1,1],[5,5, 2,5],[4,7, 1,3]])
-
-def test_function(test_size):
+def test_function(test_size, search_range):
     """
-    Prints time elapsed for build, update and search of every element of tree of test_size size
+    Prints time elapsed for build, update and search range of tree of test_size size
     usage: test_function(10000)
+    :param search_range [x_low, x_high, y_low, y_high]
     :param test_size: n size of intervals to be stored
     """
     test_size = test_size
@@ -306,42 +302,46 @@ def test_function(test_size):
         intervals.append([x_low, x_high, y_low, y_high])
 
     start = time.time()
-    my_tree2 = IntervalTree(intervals)
+    my_tree = IntervalTree(intervals)
     end = time.time()
     print(f'build time for {test_size}: {end - start}')
 
+    my_tree = IntervalTree()
     start = time.time()
     my_tree.update(intervals)
     end = time.time()
     print(f'update  time for {test_size}: {end - start}')
 
     start = time.time()
-    my_tree.findall_overlapping_interval(my_tree.root, [1, 1000, 1, 1000])
+    my_tree.findall_overlapping_interval(my_tree.root, search_range)
     end = time.time()
     print(f'search the whole tree for overlaps: {end - start}')
     return my_tree
 
-my_tree=test_function(10000)
-#my_tree=IntervalTree()
-#test_function(100000)
-#my_tree.insert(my_tree.root, [2, 2])
-#my_tree.root=my_tree.insert(my_tree.root, [10,12,3,4])
-my_tree.root=my_tree.insert(my_tree.root, [1,5999,6,6])
-#my_tree.root =my_tree.delete(my_tree.root, [1,5999,6,6])
 
+if __name__=="__main__":
+    # Initialize tree
+    my_tree = IntervalTree()
 
-#print("printing xtree: ")
-#print_tree(my_tree.root)
-"""
-print("printing ytrees:")
-y_print_tree(my_tree.root)
-"""
+    my_tree.update([[7,8, 1,1],[3,5, 6,6],[8,12, 1,1],[5,5, 2,5],[4,7, 1,3]])
 
-start = time.time()
-my_tree.findall_overlapping_interval(my_tree.root, [1,1000, 1,1000])
-end = time.time()
-print(end - start)
+    my_tree=test_function(10000,[1,1000,1,1000])
+    #test_function(100000)
+    #my_tree.root=my_tree.insert(my_tree.root, [10,12,3,4])
+    my_tree.root=my_tree.insert(my_tree.root, [1,5999,6,6])
+    #my_tree.root =my_tree.delete(my_tree.root, [1,5999,6,6])
 
-#for x_interval, y_interval in my_tree.overlaps:
-   # print(f'x({x_interval.low} {x_interval.high}) y({y_interval.low} {y_interval.high})')
-print(len(my_tree.overlaps))
+    #print("printing xtree: ")
+    #print_tree(my_tree.root)
+    """
+    print("printing ytrees:")
+    y_print_tree(my_tree.root)
+    """
+
+    """
+    to print found intervals that overlap
+    
+    for x_interval, y_interval in my_tree.overlaps:
+        print(f'x({x_interval.low} {x_interval.high}) y({y_interval.low} {y_interval.high})')
+    print(len(my_tree.overlaps))
+    """
