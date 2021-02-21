@@ -248,10 +248,10 @@ def printInOrder(root):
     printInOrder(root.right)
 
 
-def printTree(root, ext_interval=0, level=0):
+def print_tree(root, ext_interval=0, level=0):
     """
     Prints a visualization of the x tree
-    usage: printTree(my_tree.root)
+    usage: print_tree(my_tree.root)
     :param root: root of tree
     :param ext_interval is the x interval of the ynode
     :param level: starting level
@@ -263,22 +263,22 @@ def printTree(root, ext_interval=0, level=0):
         else:
             x_interval = root.interval
             y_interval = root.y_tree.root.interval
-        printTree(root.left, x_interval,level + 1)
+        print_tree(root.left, x_interval,level + 1)
         print(' ' * 4 * level + f'-> x({x_interval.low} {x_interval.high}) y({y_interval.low}'
                                 f' {y_interval.high}) ({root.max})')
-        printTree(root.right, x_interval,level + 1)
+        print_tree(root.right, x_interval,level + 1)
 
 
-def y_printTree(root):
+def y_print_tree(root):
     """
     Prints a visualization of the y trees
-    usage: y_printTree(my_tree.root)
+    usage: y_print_tree(my_tree.root)
     :param root: root of tree
     """
     if root is not None:
-        y_printTree(root.left,)
-        printTree(root.y_tree.root,root.interval,)
-        y_printTree(root.right,)
+        y_print_tree(root.left,)
+        print_tree(root.y_tree.root,root.interval,)
+        y_print_tree(root.right,)
 
 # Initialize tree
 my_tree = IntervalTree()
@@ -331,10 +331,10 @@ my_tree.root=my_tree.insert(my_tree.root, [1,5999,6,6])
 
 
 #print("printing xtree: ")
-#printTree(my_tree.root)
+#print_tree(my_tree.root)
 """
 print("printing ytrees:")
-y_printTree(my_tree.root)
+y_print_tree(my_tree.root)
 """
 
 start = time.time()
