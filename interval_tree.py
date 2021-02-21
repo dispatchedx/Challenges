@@ -277,6 +277,15 @@ def y_print_tree(root):
         y_print_tree(root.right,)
 
 
+def print_overlaps(overlaps):
+    """
+    Prints overlaps found after an interval query
+    Usage: print_overlaps(my_tree.overlaps)
+    :param overlaps: a tree's overlaps list
+    """
+    for x_interval, y_interval in my_tree.overlaps:
+        print(f'x({x_interval.low} {x_interval.high}) y({y_interval.low} {y_interval.high})')
+    print(f'Found: {len(my_tree.overlaps)} overlaps')
 
 
 if __name__=="__main__":
@@ -284,7 +293,7 @@ if __name__=="__main__":
     def test_function(test_size, search_range):
         """
         Prints time elapsed for build, update and search range of tree of test_size size
-        usage: test_function(10000)
+        usage: test_function(10000, [0,10,3,7])
         :param search_range [x_low, x_high, y_low, y_high]
         :param test_size: n size of intervals to be stored
         """
@@ -324,14 +333,22 @@ if __name__=="__main__":
     # Initialize tree
     my_tree = IntervalTree()
 
-    my_tree.update([[7,8, 1,1],[3,5, 6,6],[8,12, 1,1],[5,5, 2,5],[4,7, 1,3]])
+    # A couple of inserts
+    my_tree.update([[7,8, 1,1], [3,5, 6,6], [8,12, 1,1], [5,5, 2,5], [4,7, 1,3]])
 
-    my_tree=test_function(10000,[1,1000,1,1000])
-    #test_function(100000)
-    #my_tree.root=my_tree.insert(my_tree.root, [10,12,3,4])
-    my_tree.root=my_tree.insert(my_tree.root, [1,5999,6,6])
-    #my_tree.root =my_tree.delete(my_tree.root, [1,5999,6,6])
+    # Test the tree
+    my_tree = test_function(10000, [1,1000, 1,1000])
 
+    # Insert an interval
+    my_tree.root = my_tree.insert(my_tree.root, [1,5999,6,6])
+
+    # Delete an interval
+    my_tree.root = my_tree.delete(my_tree.root, [1,5999,6,6])
+
+    # Print overlaps
+    print_overlaps(my_tree.overlaps)
+
+    # Can print tree
     #print("printing xtree: ")
     #print_tree(my_tree.root)
     """
@@ -339,10 +356,3 @@ if __name__=="__main__":
     y_print_tree(my_tree.root)
     """
 
-    """
-    to print found intervals that overlap
-    
-    for x_interval, y_interval in my_tree.overlaps:
-        print(f'x({x_interval.low} {x_interval.high}) y({y_interval.low} {y_interval.high})')
-    print(len(my_tree.overlaps))
-    """
