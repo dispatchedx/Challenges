@@ -9,7 +9,8 @@ class Node:
         self.intervalz = intervalz
         interval_endpoints = [interval[1] for interval in intervalz]
         self.sum = sum(interval_endpoints)
-        self.range = [interval_endpoints[0], interval_endpoints[len(intervalz)-1]]
+        self.rangelow=min([interval[0] for interval in intervalz] )
+        self.range = [self.rangelow, interval_endpoints[len(intervalz)-1]]
         self.index_low = index[0]
         self.index_high = index[1]
         # For 2 dimensions, create a y segment tree for each node in x segment tree
@@ -21,7 +22,12 @@ intervals=[]
 
 
 def build(intervals, index=[]):
-
+    """
+    Builds a segment tree from given list of intervals
+    :param intervals: a list of intervals
+    :param index: is used to remember index on elements in recursion
+    :return: the segment tree
+    """
     if not intervals:
         return None
     mid = len(intervals) // 2
@@ -64,8 +70,8 @@ def stabbingQuery(root, point):
             stabbingQuery(root.right, point)
     else:
         # if interval.low <= point <=interval.high
-        if intervals[root.index_low][0] <= point <= intervals[root.index_low][1]:
-            overlaps.append(intervals[root.index_low])
+        if root.range[0] <= point <= root.range[1]:
+            overlaps.append(root.intervalz[0])
     return root
 
 
@@ -112,39 +118,6 @@ def sumQuery(root, query):
     return sum
 """
 
-def test_function(test_size, search_range):
-    """
-    Prints time elapsed for build, update and search range of tree of test_size size
-    usage: test_function(10000)
-    :param search_range [x_low, x_high, y_low, y_high]
-    :param test_size: n size of intervals to be stored
-    """
-    test_size = test_size
-    intervals = []
-    for i in range(test_size):
-        x_low = random.randint(0,1000)
-        x_high = random.randint(x_low,1000)
-        intervals.append([x_low, x_high])
-
-    intervals.sort(key=lambda x: x[1])
-    index=[0,len(intervals)-1]
-
-    start = time.time()
-    root = build(intervals, index)
-    end = time.time()
-    print(f'build time for {test_size}: {end - start}')
-
-    root = build(intervals,index)
-    start = time.time()
-    #update(my_tree,intervals,[1,2])
-    end = time.time()
-    print(f'update  time for {test_size}: {end - start}')
-
-    start = time.time()
-    stabbingQuery(root, search_range)
-    end = time.time()
-    print(f'search the whole tree for overlaps: {end - start}')
-    return root
 
 def print_tree(root, level=0):
     """
@@ -171,11 +144,46 @@ def printInOrder(root):
     printInOrder(root.right)
 
 
+def test_function(test_size, search_range):
+    """
+    Prints time elapsed for build, update and search range of tree of test_size size
+    usage: test_function(10000)
+    :param search_range [x_low, x_high, y_low, y_high]
+    :param test_size: n size of intervals to be stored
+    """
+    test_size = test_size
+    intervals = []
+    for i in range(test_size):
+        x_low = random.randint(0, 1000)
+        x_high = random.randint(x_low, 1000)
+        intervals.append([x_low, x_high])
+
+    # Sort segments by endpoints
+    intervals.sort(key=lambda x: x[1])
+    index = [0, len(intervals) - 1]
+
+    start = time.time()
+    root = build(intervals, index)
+    end = time.time()
+    print(f'build time for {test_size}: {end - start}')
+
+    root = build(intervals, index)
+    start = time.time()
+    update(root, [500, 600], [1, 2])
+    end = time.time()
+    print(f'update  time for {test_size}: {end - start}')
+
+    start = time.time()
+    stabbingQuery(root, search_range)
+    end = time.time()
+    print(f'search the whole tree for overlaps: {end - start}')
+    return root
+
 """
 intervals = [[1,1],[3,3],[4,5],[6,7],[2,9],[8,11],[9,10],[3,12],[5,8],[3,34]]
 # Sort segments by endpoints
 intervals.sort(key=lambda x: x[1])
-
+print(intervals)
 # To keep track of indexes, no need to ever change it
 index = [0, len(intervals)-1]
 
@@ -186,11 +194,30 @@ root = build(intervals, index)
 root=update(root,[8,11],[2,2])
 #print_tree(root)
 """
-root = test_function(100, 5)
-print_tree(root)
-# Perform a stabbing query
-stabbingQuery(root, 500)
+if __name__=="__main__":
 
-# Print the results of query
-for x in overlaps:
-    print(x)
+
+    segments = [[1,1],[3,3],[4,5],[6,7],[2,9],[8,11],[9,10],[3,12],[5,8],[3,34]]
+
+    # Sort segments by endpoints
+    segments.sort(key=lambda x: x[1])
+    #print(intervals)
+    # To keep track of indexes, no need to ever change it
+    #index = [0, len(intervals)-1]
+
+    # Build tree
+    root = build(segments)
+
+    # Update tree
+    root = update(root, [4, 5], [2, 2])
+
+    root = test_function(10000,50)
+    #root = test_function(1000000, 50)
+
+    # Perform a stabbing query
+    stabbingQuery(root, 4)
+
+    #print_tree(root)
+    # Print the results of query
+    #for x in overlaps:
+    #    print(x)
