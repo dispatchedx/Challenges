@@ -1,7 +1,3 @@
-import random
-import time
-
-
 class Interval:
     def __init__(self, low, high,):
         self.low = low
@@ -281,45 +277,50 @@ def y_print_tree(root):
         y_print_tree(root.right,)
 
 
-def test_function(test_size, search_range):
-    """
-    Prints time elapsed for build, update and search range of tree of test_size size
-    usage: test_function(10000)
-    :param search_range [x_low, x_high, y_low, y_high]
-    :param test_size: n size of intervals to be stored
-    """
-    test_size = test_size
-    intervals = []
-    for i in range(test_size):
-        if i % 2 == 0:
-            x_low = random.randint(0,1000)
-            x_high = random.randint(x_low,1000)
-            y_low = y_high = random.randint(1,1000)
-        else:
-            y_low = random.randint(0,1000)
-            y_high = random.randint(y_low,1000)
-            x_low = x_high = random.randint(1, 1000)
-        intervals.append([x_low, x_high, y_low, y_high])
-
-    start = time.time()
-    my_tree = IntervalTree(intervals)
-    end = time.time()
-    print(f'build time for {test_size}: {end - start}')
-
-    my_tree = IntervalTree()
-    start = time.time()
-    my_tree.update(intervals)
-    end = time.time()
-    print(f'update  time for {test_size}: {end - start}')
-
-    start = time.time()
-    my_tree.findall_overlapping_interval(my_tree.root, search_range)
-    end = time.time()
-    print(f'search the whole tree for overlaps: {end - start}')
-    return my_tree
 
 
 if __name__=="__main__":
+
+    def test_function(test_size, search_range):
+        """
+        Prints time elapsed for build, update and search range of tree of test_size size
+        usage: test_function(10000)
+        :param search_range [x_low, x_high, y_low, y_high]
+        :param test_size: n size of intervals to be stored
+        """
+        import random
+        import time
+
+        test_size = test_size
+        intervals = []
+        for i in range(test_size):
+            if i % 2 == 0:
+                x_low = random.randint(0, 1000)
+                x_high = random.randint(x_low, 1000)
+                y_low = y_high = random.randint(1, 1000)
+            else:
+                y_low = random.randint(0, 1000)
+                y_high = random.randint(y_low, 1000)
+                x_low = x_high = random.randint(1, 1000)
+            intervals.append([x_low, x_high, y_low, y_high])
+
+        start = time.time()
+        my_tree = IntervalTree(intervals)
+        end = time.time()
+        print(f'build time for {test_size}: {end - start}')
+
+        my_tree = IntervalTree()
+        start = time.time()
+        my_tree.update(intervals)
+        end = time.time()
+        print(f'update  time for {test_size}: {end - start}')
+
+        start = time.time()
+        my_tree.findall_overlapping_interval(my_tree.root, search_range)
+        end = time.time()
+        print(f'search the whole tree for overlaps: {end - start}')
+        return my_tree
+
     # Initialize tree
     my_tree = IntervalTree()
 
