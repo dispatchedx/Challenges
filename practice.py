@@ -3,15 +3,10 @@ import numpy as np
 import requests
 import urllib3.request
 import time
-temp=[]
-start = time.time()
-for i in range(10000):
-    for k in range(i):
-
-        temp.append(k)
-end = time.time()
-print(f'build time for {i}: {end - start}')
-
+x=1
+y=1
+if x==y==1:
+    print(1)
 
 '''
 response = requests.get('http://www.pythonchallenge.com/pc/return/evil1.jpg', auth=('huge', 'file'))
