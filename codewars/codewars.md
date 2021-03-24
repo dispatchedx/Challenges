@@ -24,6 +24,7 @@ My Katas (smaller kyu is harder):
 * [Last digit of a large number](5%20kyu/Last_digit_of_a_large_number.py) - [challenge](https://www.codewars.com/kata/5511b2f550906349a70004e1)
 * [RGB To Hex Conversion](5%20kyu/RGB_to_hex.py) - [challenge](https://www.codewars.com/kata/513e08acc600c94f01000001)
 * [Extract the domain name from a URL](5%20kyu/Extract_domain_from_url.py) - [challenge](https://www.codewars.com/kata/514a024011ea4fb54200004b)
+* [Pascal's Diagonals](5%20kyu/Pascal's_Diagonals.py) - [challenge](https://www.codewars.com/kata/576b072359b1161a7b000a17)
 ### 6 kyu</a>
 * [Design a Simple Automaton (Finite State Machine)](6%20kyu/Simple_automaton.py) - [challenge](https://www.codewars.com/kata/5268acac0d3f019add000203)
 * [Roman Numerals Encoder](6%20kyu/roman_numerals.py) - [challenge](https://www.codewars.com/kata/51b62bf6a9c58071c600001b)
@@ -33,6 +34,7 @@ My Katas (smaller kyu is harder):
 * [Your order, please](6%20kyu/your_order_please.py) - [challenge](https://www.codewars.com/kata/55c45be3b2079eccff00010f)
 * [Sum of Digits / Digital Root](6%20kyu/Sum_of_Digits_Digital_Root.py) - [challenge](https://www.codewars.com/kata/541c8630095125aba6000c00)
 * [Create Phone Number](6%20kyu/Create_phone_number.py) - [challenge](https://www.codewars.com/kata/525f50e3b73515a6db000b83/train)
+* [Easy Diagonal](6%20kyu/Easy_diagonal.py) - [challenge](https://www.codewars.com/kata/559b8e46fa060b2c6a0000bf)
 ### 7 kyu</a>
 * [Disemvowel Trolls](7%20kyu/disemvowel.py) - [challenge](https://www.codewars.com/kata/52fba66badcd10859f00097e)
 * [Friend or Foe?](7%20kyu/Friend_or_foe.py) - [challenge](https://www.codewars.com/kata/55b42574ff091733d900002f)
