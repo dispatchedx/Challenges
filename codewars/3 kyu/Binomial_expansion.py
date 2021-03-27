@@ -1,78 +1,71 @@
 import math
+import re
 def expand(expr):
     print(expr)
-    for char in range(len(expr)):
-        if expr[char] == "^":
-            power = int(expr[char + 1:])
-            expr = (expr[1:char - 1])
-            break
-    print(expr)
-    if "+" in expr[1:]:
-        term2sign = "+"
-    else:
-        term2sign = "-"
+    # remove parenthesis and split expression into the 2 terms and exponent
+    expr = re.findall('(-?\d*[a-z])([-+]\d*)\)\^(\d*)', expr)
+    term1 = expr[0][0]
+    term2 = expr[0][1]
+    power = int(expr[0][2])
+    print(expr, power)
 
-    if expr[0] == "-":
-        term1sign = "-"
-        expr = expr[1:]
-    else:
-        term1sign = ""
-    term1, term2 = expr.split(term2sign)
-
+    # edge cases
     if power == 0:
         return '1'
     if power == 1:
-        return term1sign + term1 + term2sign + term2
+        return term1 + term2
 
+    # split 1st term into numeric_part and variable parts
     term1variable = term1[-1]
     term1numeric = term1[:-1]
 
-    if term1numeric == "":
-        term1numeric = 1
-    term1numeric_pow = str(pow(int(term1numeric), int(power)))
-    if term1numeric_pow=='1':
-        term1numeric_pow=""
+    #more edge cases
+    if term1numeric == '':
+        term1numeric = '1'
+    elif term1numeric == '-':
+        term1numeric = '-1'
 
-    if int(power)%2==0:
-        expr = "" + term1numeric_pow + term1variable + "^" + str(power)
-    else:
-        expr = term1sign + term1numeric_pow + term1variable + "^" + str(power)
+    term1numeric_pow = str(pow(int(term1numeric), power))
+    if term1numeric_pow == '1':
+        term1numeric_pow = ''
+    elif term1numeric_pow == '-1':
+        term1numeric_pow = '-'
+    # calculate first term of binomial expansion
+    # (its done outside the loop to have the redundant "+" removed efficiently)
+    expr = term1numeric_pow + term1variable + "^" + str(power)
 
-    coefs=[]
-    kappa=[]
-    for k in range(int(power)):
-        coefs.append(int(math.factorial(power) / (math.factorial(power - k) * math.factorial(k))))
-        kappa.append("("+str(pow(int(term1sign+term1numeric), power-k))+")" + "(" + str(pow(int(term2sign+term2), k))+")")
-    print(coefs)
-    print(kappa)
-    for i in range(int(power)-1, -1, -1):
-        anti_i = int(power) - i
-        term1numeric_pow = str(pow(int(term1numeric), i))
-        term_2_pow = str(coefs[-i] * pow(int(term2), anti_i))
-        if term1numeric_pow =='1' and term_2_pow == '1':
-            term1numeric_pow = 0
-            term_2_pow = 0
+    # calculate the rest of the binomial expansion
+    for k in range(1, int(power+1)):
+        coefficient = (int(math.factorial(power) / (math.factorial(power - k) * math.factorial(k))))
+        term_product = (pow(int(term1numeric), power-k) * pow(int(term2), k))
+        numeric_part = (coefficient*term_product)
 
-        if i == 0:
-            if power%2==0:
-                expr = expr + "+" + str(pow(int(term2), anti_i))
-            else:
-                expr = expr + "-" + str(pow(int(term2), anti_i))
-            break
-        if i%2==0:
-
-            if term2sign =="-":
-                expr = expr + "-" + str(int(term_2_pow) * int(term1numeric_pow)) + term1variable + "^" + str(i)
-            else:
-                expr = expr+"+" + str(int(term_2_pow)*int(term1numeric_pow)) + term1variable + "^" + str(i)
+        # this adds a "+" to positive terms
+        if numeric_part > 0:
+            numeric_part = "+" + str(numeric_part)
         else:
-            if term1sign=="-":
-                expr = expr+ "-" + str(int(term_2_pow)*int(term1numeric_pow)) + term1variable + "^" + str(i)
-            else:
-                expr = expr+ "+" + str(int(term_2_pow)*int(term1numeric_pow)) + term1variable + "^" + str(i)
-        if i == 1:
-            expr=expr[:-2]
-    return expr
+            # negative terms already have a "-" so no need to do anything
+            numeric_part = str(numeric_part)
 
-res= expand("(5m-3)^4")
+        # remove "1" from variables being multiplied by 1 ("1x+5" -> "x+5")
+        if numeric_part == '+1':
+            numeric_part = "+"
+        elif numeric_part == '-1':
+            numeric_part = '-'
+
+        # combine all parts of a term and append to the expression
+        expr = expr + numeric_part + term1variable + "^" + str(power-k)
+
+    # this is to remove unnecessary ^1 from pre-last term
+    expr = expr.replace("^1", "")
+
+    # removes unnecessary var^0 from last term
+    expr = expr.replace(f"{term1variable}^0", "")
+    if expr[-1].isnumeric():
+        return expr
+    else:
+        return expr+'1'
+
+
+res = expand("(x+1)^2")
 print(res)
