@@ -3,10 +3,13 @@ import numpy as np
 import requests
 import urllib3.request
 import time
-x=1
-y=1
-if x==y==1:
-    print(1)
+from math import factorial as f
+def calc(n,m):
+    max_floor=0
+    for i in range(1,n+1):
+        max_floor= max_floor+ (f(m)//(f(i)*f(m-i)))
+    return max_floor
+print(calc(477,10000))
 
 '''
 response = requests.get('http://www.pythonchallenge.com/pc/return/evil1.jpg', auth=('huge', 'file'))
