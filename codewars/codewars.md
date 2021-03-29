@@ -5,12 +5,14 @@
 My Katas (smaller kyu is harder):
 
 ### 1 kyu</a>
-*
+* [Faberge_easter_eggs_crush_test_\[linear\].py](1%20kyu/Faberge_easter_eggs_crush_test_%5Blinear%5D.py) - [challenge](https://www.codewars.com/kata/5976c5a5cd933a7bbd000029)
 ### 2 kyu</a>
 * [Regular Expression - Check if divisible by 0b111 (7)](2%20kyu/Regular_Expression_Check_if_divisible_by_0b111_(7).py) - [challenge](https://www.codewars.com/kata/56a73d2194505c29f600002d)
 ### 3 kyu</a>
 * [The Millionth Fibonacci Kata](3%20kyu/The_Millionth_Fibonacci_Kata.py) - [challenge](https://www.codewars.com/kata/53d40c1e2f13e331fc000c26)
 * [Last digit of a huge number](3%20kyu/Last_digit_of_a_huge_number.py) - [challenge](https://www.codewars.com/kata/5518a860a73e708c0a000027)
+* [Binomial Expansion](3%20kyu/Binomial_expansion.py) - [challenge](https://www.codewars.com/kata/540d0fdd3b6532e5c3000b5b)
+* [Fabergè Easter Eggs crush test](3%20kyu/Fabergè_Easter_Eggs_crush_test.py) - [challenge](https://www.codewars.com/kata/54cb771c9b30e8b5250011d4)
 ### 4 kyu</a>
 * [Human readable duration format](4%20kyu/Human_readable_duration_format.py) - [challenge](https://www.codewars.com/kata/52742f58faf5485cae000b9a)
 * [Binary multiple of 3](4%20kyu/Binary_multiple_of_3.py) - [challenge](https://www.codewars.com/kata/54de279df565808f8b00126a)
