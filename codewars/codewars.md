@@ -22,6 +22,7 @@ My Katas (smaller kyu is harder):
 * [The observed PIN](4%20kyu/The_observed_pin.py) - [challenge](https://www.codewars.com/kata/5263c6999e0f40dee200059d)
 * [Roman Numerals Helper](4%20kyu/Roman_numerals_helper.py) - [challenge](https://www.codewars.com/kata/51b66044bce5799a7f000003)
 * [Recover a secret string from random triplets](4%20kyu/Recover_secret_string.py) - [challenge](https://www.codewars.com/kata/53f40dff5f9d31b813000774)
+* [Strip Comments](4%20kyu/Strip_Comments.py) - [challenge](https://www.codewars.com/kata/51c8e37cee245da6b40000bd)
 ### 5 kyu
 * [Last digit of a large number](5%20kyu/Last_digit_of_a_large_number.py) - [challenge](https://www.codewars.com/kata/5511b2f550906349a70004e1)
 * [RGB To Hex Conversion](5%20kyu/RGB_to_hex.py) - [challenge](https://www.codewars.com/kata/513e08acc600c94f01000001)
