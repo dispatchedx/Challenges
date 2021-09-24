@@ -113,19 +113,19 @@ class IntervalTree:
         if root is None:
             return root
         if root.interval.low <= interval.high and root.interval.high >= interval.low:
-            self.overlaps.append([x_interval,root.interval])
+            self.overlaps.append([x_interval, root.interval])
             return root
         if root.left is None and root.right is None:
             return root
         else:
             if root.left is None:
-                self.findall_overlapping_y_interval(root.right, i,x_interval)
+                self.findall_overlapping_y_interval(root.right, i, x_interval)
             elif interval.low > root.left.max:
-                self.findall_overlapping_y_interval(root.right, i,x_interval)
+                self.findall_overlapping_y_interval(root.right, i, x_interval)
             else:
-                self.findall_overlapping_y_interval(root.left, i,x_interval)
+                self.findall_overlapping_y_interval(root.left, i, x_interval)
                 if interval.high > root.interval.low:
-                    self.findall_overlapping_y_interval(root.right, i,x_interval)
+                    self.findall_overlapping_y_interval(root.right, i, x_interval)
         return root
 
     def insert(self, root, i):
@@ -259,10 +259,10 @@ def print_tree(root, ext_interval=0, level=0):
         else:
             x_interval = root.interval
             y_interval = root.y_tree.root.interval
-        print_tree(root.left, x_interval,level + 1)
+        print_tree(root.left, x_interval, level + 1)
         print(' ' * 4 * level + f'-> x({x_interval.low} {x_interval.high}) y({y_interval.low}'
                                 f' {y_interval.high}) ({root.max})')
-        print_tree(root.right, x_interval,level + 1)
+        print_tree(root.right, x_interval, level + 1)
 
 
 def y_print_tree(root):
@@ -273,7 +273,7 @@ def y_print_tree(root):
     """
     if root is not None:
         y_print_tree(root.left,)
-        print_tree(root.y_tree.root,root.interval,)
+        print_tree(root.y_tree.root, root.interval,)
         y_print_tree(root.right,)
 
 
