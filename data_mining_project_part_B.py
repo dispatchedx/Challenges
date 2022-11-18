@@ -5,8 +5,11 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn import model_selection
 from sklearn import metrics
 from keras import Sequential
-from keras.layers import Dense, Flatten
+from keras.layers import Dense, Flatten, Embedding, GlobalMaxPool1D, Dropout, GlobalAveragePooling1D
 from keras.callbacks import EarlyStopping
+
+from keras.preprocessing.text import Tokenizer
+from keras.preprocessing.sequence import pad_sequences
 
 nltk.download('punkt')  # needed for nltk
 nltk.download('stopwords')  # needed for stopwords removal
@@ -91,7 +94,14 @@ def preprocessing(dataframe):
     titles = discretize(titles)
     titles = stemming(titles)
     titles = stop_words_removal(titles)
-    X = tf_idf(titles)
+    #X = tf_idf(titles) # tf_idf ruins it idk why
+    # will just vectorize instead for now..
+
+    tokenizer = Tokenizer(8000, split=' ')
+    tokenizer.fit_on_texts(titles)
+
+    X = tokenizer.texts_to_sequences(titles)
+    X = pad_sequences(X)
     return X
 
 
@@ -101,9 +111,14 @@ target = data['label'].values
 X_train, X_test, y_train, y_test = model_selection.train_test_split(X, target, test_size=0.25, random_state=1)
 
 model = Sequential()
-model.add(Dense(18000, input_dim=X.shape[1]))  # first layer
-model.add(Dense(128))  # second layer
-model.add(Dense(1, activation='sigmoid'))  # output
+model.add(Embedding(8000, 128, input_length = X.shape[1]))  # better instead of flatten for words though we have tf_idf
+
+#model.add(Dense(128, activation='relu')) # doesnt do anything
+#model.add(Flatten()) #trash and slow
+
+model.add(Dense(128, activation='relu'))
+model.add(GlobalAveragePooling1D()) # pretty good
+model.add(Dense(1, activation='sigmoid'))
 model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
 # cross entropy loss function is for a binary classification
 # adam because its an efficient stochastic gradient descent algorithm because it automatically tunes itself and gives good results in a wide range of problems
