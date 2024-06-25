@@ -1,8 +1,7 @@
-
 import random
 from random import randrange
 data = '{ "locations" :['
-
+# This tool was made to generate fake/test data for https://github.com/dispatchedx/location-history-visualiser
 for i in range(15000):
 
     start_timestamp=1420070400000 #2015/8/25
