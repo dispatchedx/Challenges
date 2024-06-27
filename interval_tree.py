@@ -40,6 +40,7 @@ class IntervalTree:
         else:
             for interval in intervals:
                 self.root = self.insert(self.root, interval)
+    #TODO probably shouldnt keep ovelaps here but in the function instead
     overlaps = []
 
     def test_overlap(self, root, i):
@@ -73,7 +74,7 @@ class IntervalTree:
     def findall_overlapping_interval(self, root, i):
         """
         usage: my_tree.findall_overlapping_interval(my_tree.root, [30,500, 1,1000])
-        Finds all intervals that overlap with the given interval on x axis
+        Finds all intervals that overlap with the given interval on x axis and y axis 
         :param root: root of the tree
         :param i: interval
         :return: a list of intervals
@@ -231,11 +232,42 @@ class IntervalTree:
         for interval in intervals:
             self.root = self.insert(self.root, interval)
 
+    def visualize(self):
+        # visualisation using graphviz as a png image in hopes of understanding wtf is going on
+        from graphviz import Digraph
+        def add_x_node(dot, root, parent=None, edge_label=""):
+            if root is None:
+                return
+            node_label = f'X: [{root.interval.low},{root.interval.high}]\\nmax={root.max}'
+            dot.node(str(id(root)), node_label)
+            if parent is not None:
+                dot.edge(str(id(parent)), str(id(root)), label=edge_label)
+
+            add_y_nodes(dot, root.y_tree.root, root, "Y")
+
+            add_x_node(dot, root.left, root, "L")
+            add_x_node(dot, root.right, root, "R")
+
+        def add_y_nodes(dot, root, parent_x, edge_label=""):
+            if root is None:
+                return
+            node_label = f'Y: [{root.interval.low},{root.interval.high}]\\nmax={root.max}'
+            dot.node(str(id(root)), node_label)
+            dot.edge(str(id(parent_x)), str(id(root)), label=edge_label)
+
+            add_y_nodes(dot, root.left, parent_x, "L")
+            add_y_nodes(dot, root.right, parent_x, "R")
+
+        dot = Digraph(comment='Interval Tree')
+        add_x_node(dot, self.root)
+        dot.render('interval_tree', view=True)
+        return dot
+
 
 def printInOrder(root):
     """
-    obsolete in-order print function for 1D tree
-    :param root: root of the tree
+    #obsolete in-order print function for 1D tree
+    #:param root: root of the tree
     """
     if root is None:
         return
@@ -246,7 +278,7 @@ def printInOrder(root):
 
 def print_tree(root, ext_interval=0, level=0):
     """
-    Prints a visualization of the x tree
+    Prints a visualization of the x tree in terminal
     usage: print_tree(my_tree.root)
     :param root: root of tree
     :param ext_interval is the x interval of the ynode
@@ -288,6 +320,8 @@ def print_overlaps(overlaps):
     print(f'Found: {len(my_tree.overlaps)} overlaps')
 
 
+
+
 if __name__=="__main__":
 
     def test_function(test_size, search_range):
@@ -299,7 +333,6 @@ if __name__=="__main__":
         """
         import random
         import time
-
         test_size = test_size
         intervals = []
         for i in range(test_size):
@@ -337,7 +370,7 @@ if __name__=="__main__":
     my_tree.update([[7,8, 1,1], [3,5, 6,6], [8,12, 1,1], [5,5, 2,5], [4,7, 1,3]])
 
     # Test the tree
-    my_tree = test_function(10000, [1,1000, 1,1000])
+    #my_tree = test_function(100, [1,1000, 1,1000])
 
     # Insert an interval
     my_tree.root = my_tree.insert(my_tree.root, [1,5999,6,6])
@@ -347,12 +380,19 @@ if __name__=="__main__":
 
     # Print overlaps
     print_overlaps(my_tree.overlaps)
-
+    my_tree.findall_overlapping_interval(my_tree.root,[4,7,1,3])
+    print_overlaps(my_tree.overlaps)
+    print("umm")
+    #TODO looks like only x axis matters, ignoring y axis completely. also overlaps should be cleared after each search query because of my bad implementation
+    my_tree.findall_overlapping_interval(my_tree.root,[1,1,1,9])
+    print_overlaps(my_tree.overlaps)
     # Can print tree
-    #print("printing xtree: ")
-    #print_tree(my_tree.root)
-    """
+    print("printing xtree: ")
+    print_tree(my_tree.root)
+    
     print("printing ytrees:")
     y_print_tree(my_tree.root)
-    """
+
+    # Visualize the tree in png using graphviz
+    my_tree.visualize()
 
