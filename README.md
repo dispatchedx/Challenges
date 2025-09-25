@@ -1,6 +1,7 @@
 # Challenges!
-This is a raw compilation of some "challenges" that i have done in python. Some of them could be implemented much cleaner
-but that wasn't my main goal. They are merely done as a way to learn basic stuff. 
+Collection of Python solutions from Codewars, LeetCode, and other coding platforms
+This is a raw dump of the more interesting ones that i have done in python. A few of them could be implemented cleaner
+but the main goal was to learn and develop coding skills while also having fun. 
 
 ### Codewars
 *  [Codewars challenges](codewars/codewars.md)
